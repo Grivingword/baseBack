@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helper\ConnectionHelper;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Psr\Log\LoggerInterface;
@@ -11,22 +12,19 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserController extends Controller
 {
-    protected $queryLibrary;
     protected $default;
     protected $log;
 
     public function __construct(
-        QueryController $queryLibrary,
         LoggerInterface $logger
     )
     {
         $this->default = env('DB_DATABASE');
         ConnectionHelper::createDataBaseConnection($this->default);
-        $this->queryLibrary = $queryLibrary;
         $this->log = $logger;
     }
 
-    public function login(Request $request)
+    public function login(Request $request): JsonResponse
     {
         try {
             $credentials = $request->only("email", "password");
@@ -66,7 +64,7 @@ class UserController extends Controller
         }
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request): JsonResponse
     {
         try {
 

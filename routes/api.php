@@ -1,10 +1,11 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::post('login', 'App\Http\Controllers\UserController@login');
+Route::post('login', [UserController::class, 'login']);
 
 Route::group(['middleware' => ['jwt.verify']], function () {
 
-    Route::post('logout', 'App\Http\Controllers\UserController@logout');
+    Route::post('logout', [UserController::class, 'logout']);
 });
